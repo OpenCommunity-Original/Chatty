@@ -1,0 +1,10 @@
+name: Chatty
+version: '${version}'
+main: org.opencommunity.chatty.Main
+api-version: 1.19
+authors: [ Envel ]
+
+commands:
+  chat:
+    description: Enter or leave a local chat
+    usage: /chat [{name}/leave]

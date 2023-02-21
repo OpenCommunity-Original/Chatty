@@ -1,0 +1,101 @@
+# OpenCommunity Chatty
+
+#
+# Death message
+#
+
+death-prefix: "&#c6e2ff☠ "
+
+#
+# Chat correction
+#
+
+# With an upper letter
+chat-correction: true
+
+# Anti caps
+anti-caps: true
+# In percents
+anti-caps-amount: 20
+# Warning message
+anti-caps-message: "&#ff4040&lDon't use so much CAPS because you don't like to be yelled at."
+# Check only when message longer than
+anti-caps-min: 10
+
+#
+# Chat format
+#
+
+# Chat message formats for different player groups
+chat-formats:
+  # Default format for all players
+  default: "&#c6e2ff&l%player% >&f "
+  # Format for players with the "opencommunity.moder" permission
+  moder: "&#ffc6e2&l%player% >&f "
+  moder-hover: "&#ffc6e2&l✔ Original Community Moderator"
+
+#
+# Local chat
+#
+
+# The prefix for the local chat messages
+local-chat-prefix: "&#9fff9f&o%chatname% &f&#9fff9f&l%player% >&f "
+
+# Message when a player enters the local chat
+local-chat-join: "&#9fff9f&l%player% joined the chat room"
+
+# Message when a player leaves local chat
+local-chat-leave: "&#9fff9f&l%player% left the chat room"
+
+# error messages
+error-messages:
+  not-a-player: "This command can only be used by players."
+  invalid-local-chat-name: "&c&lInvalid local chat name. Only letters and numbers are allowed and the name should be 4 to 14 symbols long."
+  already-in-chat: "&c&lYou are already in a local chat. Use &f/chat leave &cto leave the current chat."
+
+# usage messages
+usage-messages:
+  chat-command: "&c&lUsage: &f/chat [name] &cto enter chat. &f/chat leave &cto leave local chat."
+
+# success messages
+success-messages:
+  left-local-chat: "&c&lYou have left the local chat."
+  joined-local-chat: "&a&lYou have joined the local chat. \nTo leave, type &f/chat leave&r \n&a&lPrefix '!' to send messages to global chat."
+
+#
+# Announcements
+#
+
+# Announcement interval in minutes
+announcement-interval: 5
+
+# Announcement prefix
+announcement-prefix: '[Announcement] '
+
+# Announcement messages
+announcement-messages:
+  - 'Welcome to our server! Enjoy your time here.'
+  - 'Don''t forget to check out our website for more information.'
+  - 'Join our Discord for the latest updates and to connect with other players.'
+
+#
+# Join / Leave Messages
+#
+
+# Join message prefix
+join-prefix: '&2✔ &#c6e2ff&l'
+
+# Leave message prefix
+leave-prefix: '&4✘ &#c6e2ff&l'
+
+# Join messages
+join-messages:
+  - '%player% has joined the server!'
+  - 'Welcome to the server, %player%!'
+  - 'Glad to have you, %player%!'
+
+# Leave messages
+leave-messages:
+  - '%player% has left the server.'
+  - 'Goodbye %player%, see you soon!'
+  - '%player% will be missed.'
