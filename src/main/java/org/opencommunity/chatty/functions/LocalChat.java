@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 import org.opencommunity.chatty.utils.FormatUtil;
+import org.opencommunity.chatty.utils.LocaleAPI;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,13 +16,9 @@ public class LocalChat {
     public Map<String, String> chattyPlayers = new HashMap<>();
     public Map<Player, String> previousMessages = new HashMap<>();
     private final String localChatPrefix;
-    private final String playerJoinLocalChat;
-    private final String playerLeaveLocalChat;
 
     public LocalChat(Configuration config) {
         this.localChatPrefix = config.getString("local-chat-prefix");
-        this.playerJoinLocalChat = config.getString("local-chat-join");
-        this.playerLeaveLocalChat = config.getString("local-chat-leave");
     }
 
     public boolean isInChat(Player player) {
@@ -44,7 +41,9 @@ public class LocalChat {
             if (entry.getValue().equals(chattyPlayers.get(player.getName()))) {
                 Player chattyPlayer = Bukkit.getPlayer(entry.getKey());
                 if (chattyPlayer != null) {
-                    chattyPlayer.sendMessage(FormatUtil.replaceFormat(playerJoinLocalChat.replace("%player%", player.getName())));
+                    chattyPlayer.sendMessage(FormatUtil
+                            .replaceFormat(LocaleAPI.getMessage(player, "local-chat-join")
+                            .replace("%player%", player.getName())));
                 }
             }
         }
@@ -55,7 +54,9 @@ public class LocalChat {
         for (Map.Entry<String, String> entry : chattyPlayers.entrySet()) {
             Player chattyPlayer = Bukkit.getPlayer(entry.getKey());
             if (chattyPlayer != null) {
-                chattyPlayer.sendMessage(FormatUtil.replaceFormat(playerLeaveLocalChat.replace("%player%", player.getName())));
+                chattyPlayer.sendMessage(FormatUtil
+                        .replaceFormat(LocaleAPI.getMessage(player, "local-chat-leave")
+                        .replace("%player%", player.getName())));
             }
         }
     }

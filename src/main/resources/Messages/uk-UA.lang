@@ -1,0 +1,24 @@
+## Chat correction
+# Warning message
+anti-caps-message: "&#ff4040&lНе використовуйте так багато ВЕЛИКИХ ЛІТЕР, оскільки ви не любите, коли на вас кричать."
+
+## Local chat
+# Message when a player enters the local chat
+local-chat-join: "&#9fff9f&l%player% приєднався до кімнати чату"
+
+# Message when a player leaves local chat
+local-chat-leave: "&#9fff9f&l%player% залишив кімнату чату"
+
+# error messages
+error-messages:
+  invalid-local-chat-name: "&c&lНеправильна назва локального чату. Дозволені тільки літери та цифри, і назва має містити від 4 до 14 символів."
+  already-in-chat: "&c&lВи вже перебуваєте в локальному чаті. Використайте &f/chat leave &c, щоб покинути поточний чат."
+
+# usage messages
+usage-messages:
+  chat-command: "&c&lВикористання: &f/chat [назва] &c, щоб увійти в чат. &f/chat leave &c, щоб покинути локальний чат."
+
+# success messages
+success-messages:
+  left-local-chat: "&c&lВи покинули локальний чат."
+  joined-local-chat: "&a&lВи приєдналися до локального чату. \nЩоб вийти, введіть &f/chat leave&r. \n&a&lПрефікс '!' для відправлення повідомлень у глобальний чат."

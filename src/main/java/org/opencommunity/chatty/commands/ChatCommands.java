@@ -9,27 +9,18 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.opencommunity.chatty.functions.LocalChat;
 import org.opencommunity.chatty.utils.FormatUtil;
+import org.opencommunity.chatty.utils.LocaleAPI;
 
 import java.util.Objects;
 
 public class ChatCommands implements CommandExecutor {
     private final LocalChat localChat;
 
-    private final String leftLocal;
-    private final String chatCommand;
-    private final String invalidLocal;
-    private final String alreadyIn;
-    private final String joinedLocal;
     private final Configuration config;
 
     public ChatCommands(Configuration config, LocalChat localChat) {
         this.config = config;
         this.localChat = localChat;
-        this.leftLocal = FormatUtil.replaceFormat(config.getString("success-messages.left-local-chat"));
-        this.chatCommand = FormatUtil.replaceFormat(config.getString("usage-messages.chat-command"));
-        this.invalidLocal = FormatUtil.replaceFormat(config.getString("error-messages.invalid-local-chat-name"));
-        this.alreadyIn = FormatUtil.replaceFormat(config.getString("error-messages.already-in-chat"));
-        this.joinedLocal = FormatUtil.replaceFormat(config.getString("success-messages.joined-local-chat"));
     }
 
     @Override
@@ -42,27 +33,32 @@ public class ChatCommands implements CommandExecutor {
 
         if ((args.length == 0 ? "" : args[0].toLowerCase()).equals("leave")) {// Remove player from local chat
             localChat.removePlayer(player);
-            player.sendMessage(" \n" + leftLocal + "\n ");
+            player.sendMessage(" \n" + FormatUtil.replaceFormat(LocaleAPI
+                    .getMessage(player,"success-messages.left-local-chat")) + "\n ");
             localChat.sendChatLeaveMessage(player);
         } else { // Check if chat name is provided
             if (args.length < 1) {
-                player.sendMessage(chatCommand);
+                player.sendMessage(FormatUtil.replaceFormat(LocaleAPI
+                        .getMessage(player,"usage-messages.chat-command")));
                 return true;
             }
             // Check if chat name is valid
             String chatName = args[0];
             if (!chatName.matches("^[a-zA-Z0-9]{4,14}$")) {
-                player.sendMessage(invalidLocal);
+                FormatUtil.replaceFormat(LocaleAPI
+                        .getMessage(player,"error-messages.invalid-local-chat-name"));
                 return true;
             }
             // Check if player is already in a chat
             if (localChat.isInChat(player)) {
-                player.sendMessage(alreadyIn);
+                player.sendMessage(FormatUtil.replaceFormat(LocaleAPI
+                        .getMessage(player,"error-messages.already-in-chat")));
                 return true;
             }
             // Add player to local chat
             localChat.addPlayer(player, chatName);
-            player.sendMessage(" \n" + joinedLocal + "\n ");
+            player.sendMessage(" \n" + FormatUtil.replaceFormat(LocaleAPI
+                    .getMessage(player,"success-messages.joined-local-chat")) + "\n ");
             localChat.sendChatJoinMessage(player);
         }
         return true;

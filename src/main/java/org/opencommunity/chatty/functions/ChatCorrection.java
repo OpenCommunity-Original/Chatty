@@ -4,19 +4,17 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.opencommunity.chatty.utils.FormatUtil;
+import org.opencommunity.chatty.utils.*;
 
 public class ChatCorrection implements Listener {
 
     private final int antiCapsAmount;
     private final int minMessage;
-    private final String antiCapsMessage;
     private final Configuration config;
 
     public ChatCorrection(Configuration config) {
         this.config = config;
         this.antiCapsAmount = (int) config.getDouble("anti-caps-amount");
-        this.antiCapsMessage = FormatUtil.replaceFormat(config.getString("anti-caps-message"));
         this.minMessage = config.getInt("anti-caps-min");
     }
 
@@ -24,7 +22,8 @@ public class ChatCorrection implements Listener {
         if (config.getBoolean("anti-caps")) {
             int capsPercentage = calculateCapsPercentage(message);
             if (capsPercentage > antiCapsAmount && (message.length() > minMessage)) {
-                player.sendMessage(antiCapsMessage);
+                player.sendMessage(FormatUtil.replaceFormat(
+                        LocaleAPI.getMessage(player,"anti-caps-message")));
                 if (!config.getBoolean("chat-correction")) {
                     return Component.text(message.toLowerCase());
                 }

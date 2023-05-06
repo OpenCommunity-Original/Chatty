@@ -12,6 +12,7 @@ import org.opencommunity.chatty.events.PlayerJoinLeave;
 import org.opencommunity.chatty.functions.ChatCorrection;
 import org.opencommunity.chatty.functions.ChatFormatter;
 import org.opencommunity.chatty.functions.LocalChat;
+import org.opencommunity.chatty.utils.LocaleAPI;
 
 import java.util.Objects;
 
@@ -29,6 +30,10 @@ public class Main extends JavaPlugin {
         initializeChatCommand();
         // Initialize and register the event listeners
         initializeEventListeners();
+        // LocaleAPI
+        LocaleAPI localeAPI = new LocaleAPI();
+        Bukkit.getPluginManager().registerEvents(localeAPI, this);
+        localeAPI.loadSupportedLocales(this);
     }
 
     private void saveAndReloadConfig() {

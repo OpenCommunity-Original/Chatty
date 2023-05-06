@@ -20,7 +20,9 @@ public class PlayerDeath implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerDeath(PlayerDeathEvent event) {
         Component deathMessageComponent = event.deathMessage();
-        assert deathMessageComponent != null;
+        if (deathMessageComponent == null) {
+            return;
+        }
         String deathMessage = PlainTextComponentSerializer.plainText().serialize(deathMessageComponent);
         event.setDeathMessage(deathPrefix + deathMessage);
     }

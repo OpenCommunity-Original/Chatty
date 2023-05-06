@@ -1,0 +1,24 @@
+## Chat correction
+# Warning message
+anti-caps-message: "&#ff4040&lDon't use so much CAPS because you don't like to be yelled at."
+
+## Local chat
+# Message when a player enters the local chat
+local-chat-join: "&#9fff9f&l%player% joined the chat room"
+
+# Message when a player leaves local chat
+local-chat-leave: "&#9fff9f&l%player% left the chat room"
+
+# error messages
+error-messages:
+  invalid-local-chat-name: "&c&lInvalid local chat name. Only letters and numbers are allowed and the name should be 4 to 14 symbols long."
+  already-in-chat: "&c&lYou are already in a local chat. Use &f/chat leave &cto leave the current chat."
+
+# usage messages
+usage-messages:
+  chat-command: "&c&lUsage: &f/chat [name] &cto enter chat. &f/chat leave &cto leave local chat."
+
+# success messages
+success-messages:
+  left-local-chat: "&c&lYou have left the local chat."
+  joined-local-chat: "&a&lYou have joined the local chat. \nTo leave, type &f/chat leave&r \n&a&lPrefix '!' to send messages to global chat."
