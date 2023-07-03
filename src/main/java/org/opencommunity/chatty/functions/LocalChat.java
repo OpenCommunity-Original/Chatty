@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
+import org.opencommunity.chatty.utils.ConfigurationManager;
 import org.opencommunity.chatty.utils.FormatUtil;
 import org.opencommunity.chatty.utils.LocaleAPI;
 
@@ -12,13 +13,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LocalChat {
+    private ConfigurationManager configManager;
 
     public Map<String, String> chattyPlayers = new HashMap<>();
     public Map<Player, String> previousMessages = new HashMap<>();
     private final String localChatPrefix;
 
-    public LocalChat(Configuration config) {
-        this.localChatPrefix = config.getString("local-chat-prefix");
+    public LocalChat(ConfigurationManager configManager) {
+        this.configManager = configManager;
+        this.localChatPrefix = configManager.getString("local-chat-prefix");
     }
 
     public boolean isInChat(Player player) {

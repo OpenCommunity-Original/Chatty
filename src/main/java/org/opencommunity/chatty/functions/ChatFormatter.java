@@ -5,16 +5,19 @@ import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
+import org.opencommunity.chatty.utils.ConfigurationManager;
 
 public class ChatFormatter {
+    private ConfigurationManager configManager;
     private final String formatModer;
     private final String formatModerHover;
     private final String formatDefault;
 
-    public ChatFormatter(Configuration config) {
-        this.formatModer = config.getString("chat-formats.moder");
-        this.formatModerHover = config.getString("chat-formats.moder-hover");
-        this.formatDefault = config.getString("chat-formats.default");
+    public ChatFormatter(ConfigurationManager configManager) {
+        this.configManager = configManager;
+        this.formatModer = configManager.getString("chat-formats.moder");
+        this.formatModerHover = configManager.getString("chat-formats.moder-hover");
+        this.formatDefault = configManager.getString("chat-formats.default");
     }
 
     public TextComponent formatMessage(Player player) {

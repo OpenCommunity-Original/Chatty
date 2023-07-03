@@ -9,18 +9,19 @@ import org.opencommunity.chatty.events.Announcer;
 import org.opencommunity.chatty.events.AsyncChat;
 import org.opencommunity.chatty.events.PlayerDeath;
 import org.opencommunity.chatty.events.PlayerJoinLeave;
-import org.opencommunity.chatty.functions.ChatCorrection;
-import org.opencommunity.chatty.functions.ChatFormatter;
-import org.opencommunity.chatty.functions.LocalChat;
+import org.opencommunity.chatty.functions.*;
+import org.opencommunity.chatty.utils.ConfigurationManager;
 import org.opencommunity.chatty.utils.LocaleAPI;
 
 import java.util.Objects;
+
+import static org.opencommunity.chatty.utils.FileUtils.loadBadWordPatterns;
 
 public class Main extends JavaPlugin {
 
     public AsyncChat asyncChat;
     public ChatCommands chatCommands;
-    private Configuration config;
+    private ConfigurationManager configManager;
 
     @Override
     public void onEnable() {
@@ -37,23 +38,28 @@ public class Main extends JavaPlugin {
     }
 
     private void saveAndReloadConfig() {
-        saveDefaultConfig();
-        reloadConfig();
-        config = getConfig();
+        configManager = ConfigurationManager.getInstance(this);
+        configManager.loadConfig();
+
+        // Load bad words files
+        loadBadWordPatterns(this);
     }
 
     private void initializeChatCommand() {
-        ChatFormatter chatFormatter = new ChatFormatter(config);
-        LocalChat localChat = new LocalChat(config);
-        asyncChat = new AsyncChat(new ChatCorrection(config), chatFormatter, localChat);
-        chatCommands = new ChatCommands(config, localChat);
+        ChatFormatter chatFormatter = new ChatFormatter(configManager);
+        LocalChat localChat = new LocalChat(configManager);
+        ChatCorrection chatCorrection = new ChatCorrection(configManager);
+        AntiBadWords antiBadWords = new AntiBadWords(configManager, this);
+        AntiFlood antiFlood = new AntiFlood(configManager);
+        asyncChat = new AsyncChat(chatCorrection, chatFormatter, localChat, antiBadWords, antiFlood);
+        chatCommands = new ChatCommands(configManager, localChat);
         Objects.requireNonNull(getCommand("chat")).setExecutor(chatCommands);
     }
 
     private void initializeEventListeners() {
-        PlayerDeath playerDeath = new PlayerDeath(config);
-        Announcer announcer = new Announcer(this, config);
-        PlayerJoinLeave playerJoinLeave = new PlayerJoinLeave(config);
+        PlayerDeath playerDeath = new PlayerDeath(configManager);
+        Announcer announcer = new Announcer(this, configManager);
+        PlayerJoinLeave playerJoinLeave = new PlayerJoinLeave(configManager);
 
         Bukkit.getPluginManager().registerEvents(playerDeath, this);
         Bukkit.getPluginManager().registerEvents(asyncChat, this);

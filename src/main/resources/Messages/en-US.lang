@@ -1,6 +1,8 @@
 ## Chat correction
 # Warning message
 anti-caps-message: "&#ff4040&lDon't use so much CAPS because you don't like to be yelled at."
+flood-message: "&#ff4040&lYou have too much flood in the chat."
+stop-message: "&#ff4040&lYou use obscene language and/or insults. We are tolerant of such things, but if it continues in greater numbers, you will be blocked."
 
 ## Local chat
 # Message when a player enters the local chat

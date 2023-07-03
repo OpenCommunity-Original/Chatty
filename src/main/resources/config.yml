@@ -20,6 +20,24 @@ anti-caps-amount: 20
 # Check only when message longer than
 anti-caps-min: 10
 
+# Anti flood
+anti-flood: true
+# The number of repetitions that we consider a flood
+anti-flood-amount: 6
+# How many percent of messages must be similar to be considered a flood
+anti-flood-similarity: 80
+# How many recent messages from a player to check
+check-the-latest: 50
+
+# Stop words
+anti-bad-words: true
+# Allowed amount after which the blocking of the player should work
+anti-bad-words-limit: 20
+# Reset the counter if the specified number of minutes have passed since the last warning
+anti-bad-words-reset: 60
+# Blocking command when limit exceeded
+anti-bad-words-ban: "ban %player% Excessive amount of obscene language and / or insults. This is an automatic ban, you should appeal it if something went wrong."
+
 #
 # Chat format
 #

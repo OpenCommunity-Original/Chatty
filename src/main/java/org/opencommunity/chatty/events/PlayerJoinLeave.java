@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.opencommunity.chatty.utils.ConfigurationManager;
 import org.opencommunity.chatty.utils.FormatUtil;
 
 import java.util.List;
@@ -18,11 +19,11 @@ public class PlayerJoinLeave implements Listener {
     private final String leavePrefix;
     private final List<String> leaveMessages;
 
-    public PlayerJoinLeave(Configuration config) {
-        this.joinPrefix = config.getString("join-prefix");
-        this.joinMessages = config.getStringList("join-messages");
-        this.leavePrefix = config.getString("leave-prefix");
-        this.leaveMessages = config.getStringList("leave-messages");
+    public PlayerJoinLeave(ConfigurationManager configManager) {
+        this.joinPrefix = configManager.getString("join-prefix");
+        this.joinMessages = configManager.getStringList("join-messages");
+        this.leavePrefix = configManager.getString("leave-prefix");
+        this.leaveMessages = configManager.getStringList("leave-messages");
     }
 
     @EventHandler

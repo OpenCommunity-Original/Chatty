@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.event.Listener;
 import org.opencommunity.chatty.Main;
+import org.opencommunity.chatty.utils.ConfigurationManager;
 import org.opencommunity.chatty.utils.FormatUtil;
 
 import java.util.List;
@@ -15,11 +16,11 @@ public class Announcer implements Listener {
     private final int announcementInterval;
     private final List<String> announcementMessages;
 
-    public Announcer(Main plugin, Configuration config) {
+    public Announcer(Main plugin, ConfigurationManager configManager) {
         this.plugin = plugin;
-        this.announcementInterval = config.getInt("announcement-interval");
-        this.announcementPrefix = config.getString("announcement-prefix");
-        this.announcementMessages = config.getStringList("announcement-messages");
+        this.announcementInterval = configManager.getInt("announcement-interval");
+        this.announcementPrefix = configManager.getString("announcement-prefix");
+        this.announcementMessages = configManager.getStringList("announcement-messages");
     }
 
     public void startAnnouncementTask() {

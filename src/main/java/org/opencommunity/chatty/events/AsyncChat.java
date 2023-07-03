@@ -12,20 +12,22 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
-import org.opencommunity.chatty.functions.ChatCorrection;
-import org.opencommunity.chatty.functions.ChatFormatter;
-import org.opencommunity.chatty.functions.LocalChat;
+import org.opencommunity.chatty.functions.*;
 
 public class AsyncChat implements Listener {
 
     private final ChatCorrection chatCorrection;
     private final ChatFormatter chatFormatter;
     private final LocalChat localChat;
+    private final AntiBadWords antiBadWords;
+    private final AntiFlood antiFlood;
 
-    public AsyncChat(ChatCorrection chatCorrection, ChatFormatter chatFormatter, LocalChat localChat) {
+    public AsyncChat(ChatCorrection chatCorrection, ChatFormatter chatFormatter, LocalChat localChat, AntiBadWords antiBadWords, AntiFlood antiFlood) {
         this.chatCorrection = chatCorrection;
         this.chatFormatter = chatFormatter;
         this.localChat = localChat;
+        this.antiBadWords = antiBadWords;
+        this.antiFlood = antiFlood;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -41,28 +43,36 @@ public class AsyncChat implements Listener {
         }
 
         // Format player's chat message
-        final TextComponent textComponent = formatChatMessage(player, event);
+        final TextComponent textComponent = formatChatMessage(event);
         // Format console chat message
         final TextComponent consoleTextComponent = Component.text(player.getName() + ": " + message);
 
-        event.renderer(new ChatRenderer() {
-            @Override
-            public @NotNull Component render(@NotNull Player source, @NotNull Component sourceDisplayName, @NotNull Component message, @NotNull Audience viewer) {
-                if (viewer instanceof ConsoleCommandSender) {
-                    return consoleTextComponent;
-                }
-                return textComponent;
+        event.renderer((source, sourceDisplayName, message1, viewer) -> {
+            if (viewer instanceof ConsoleCommandSender) {
+                return consoleTextComponent;
             }
+            return textComponent;
         });
     }
 
-    private TextComponent formatChatMessage(Player player, AsyncChatEvent event) {
+    private TextComponent formatChatMessage(AsyncChatEvent event) {
+        final Player player = event.getPlayer();
         // Build player chat format
         TextComponent format = chatFormatter.formatMessage(player);
 
         // Chat Correction
         String message = LegacyComponentSerializer.legacyAmpersand().serialize(event.message());
-        Component correctedMessage = chatCorrection.handleChat(message, player);
+
+        antiFlood.handleChat(message, event);
+
+        if (event.isCancelled()) {
+            return Component.empty();
+        }
+
+        message = antiBadWords.handleChat(message, event);
+
+        Component correctedMessage;
+        correctedMessage = chatCorrection.handleChat(message, player);
 
         // Final message
         return Component.empty().append(format).append(correctedMessage);

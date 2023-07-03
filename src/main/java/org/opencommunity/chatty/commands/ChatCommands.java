@@ -8,6 +8,7 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.opencommunity.chatty.functions.LocalChat;
+import org.opencommunity.chatty.utils.ConfigurationManager;
 import org.opencommunity.chatty.utils.FormatUtil;
 import org.opencommunity.chatty.utils.LocaleAPI;
 
@@ -15,19 +16,20 @@ import java.util.Objects;
 
 public class ChatCommands implements CommandExecutor {
     private final LocalChat localChat;
+    private ConfigurationManager configManager;
+    private final String errorNotPlayer;
 
-    private final Configuration config;
-
-    public ChatCommands(Configuration config, LocalChat localChat) {
-        this.config = config;
+    public ChatCommands(ConfigurationManager configManager, LocalChat localChat) {
+        this.configManager = configManager;
         this.localChat = localChat;
+        this.errorNotPlayer = configManager.getString("error-messages.not-a-player");
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         // Check if sender is a player
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(Objects.requireNonNull(config.getString("error-messages.not-a-player")));
+            sender.sendMessage(errorNotPlayer);
             return true;
         }
 
