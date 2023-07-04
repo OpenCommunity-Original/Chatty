@@ -3,7 +3,6 @@ package org.opencommunity.chatty.functions;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 import org.opencommunity.chatty.utils.ConfigurationManager;
 import org.opencommunity.chatty.utils.FormatUtil;
@@ -13,14 +12,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LocalChat {
-    private ConfigurationManager configManager;
-
+    private final String localChatPrefix;
     public Map<String, String> chattyPlayers = new HashMap<>();
     public Map<Player, String> previousMessages = new HashMap<>();
-    private final String localChatPrefix;
 
     public LocalChat(ConfigurationManager configManager) {
-        this.configManager = configManager;
         this.localChatPrefix = configManager.getString("local-chat-prefix");
     }
 
@@ -46,7 +42,7 @@ public class LocalChat {
                 if (chattyPlayer != null) {
                     chattyPlayer.sendMessage(FormatUtil
                             .replaceFormat(LocaleAPI.getMessage(player, "local-chat-join")
-                            .replace("%player%", player.getName())));
+                                    .replace("%player%", player.getName())));
                 }
             }
         }
@@ -59,12 +55,13 @@ public class LocalChat {
             if (chattyPlayer != null) {
                 chattyPlayer.sendMessage(FormatUtil
                         .replaceFormat(LocaleAPI.getMessage(player, "local-chat-leave")
-                        .replace("%player%", player.getName())));
+                                .replace("%player%", player.getName())));
             }
         }
     }
 
-    public void handleLocalChat(AsyncChatEvent event, Player player, String message) {
+    public void handleLocalChat(AsyncChatEvent event, String message) {
+        Player player = event.getPlayer();
 
         // If the player is not in a local chat, return immediately
         if (!chattyPlayers.containsKey(player.getName())) {

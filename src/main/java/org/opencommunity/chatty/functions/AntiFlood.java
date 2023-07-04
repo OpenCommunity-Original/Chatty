@@ -16,10 +16,8 @@ public class AntiFlood {
     private final int antiFloodSimilarity;
     private final int checkTheLast;
     private final Map<Player, LinkedList<String>> playerRecentMessages = new HashMap<>();
-    private final ConfigurationManager configManager;
 
     public AntiFlood(ConfigurationManager configManager) {
-        this.configManager = configManager;
         this.antiFloodEnabled = configManager.getBoolean("anti-flood");
         this.antiFloodAmount = configManager.getInt("anti-flood-amount");
         this.antiFloodSimilarity = configManager.getInt("anti-flood-similarity");
@@ -31,11 +29,7 @@ public class AntiFlood {
 
         final Player player = event.getPlayer();
 
-        LinkedList<String> playerMessages = playerRecentMessages.get(player);
-        if (playerMessages == null) {
-            playerMessages = new LinkedList<>();
-            playerRecentMessages.put(player, playerMessages);
-        }
+        LinkedList<String> playerMessages = playerRecentMessages.computeIfAbsent(player, k -> new LinkedList<>());
 
         if (isFloodDetected(playerMessages, message)) {
             // Flood detected, cancel the event
@@ -50,14 +44,12 @@ public class AntiFlood {
     private boolean isFloodDetected(LinkedList<String> playerMessages, String message) {
         // Check if the message matches the flood criteria
         int similarityCount = 0;
-        int totalMessages = 0;
 
         for (String recentMessage : playerMessages) {
             double similarity = calculateSimilarity(message, recentMessage);
             if (similarity >= antiFloodSimilarity) {
                 similarityCount++;
             }
-            totalMessages++;
         }
 
         // Check if the flood criteria are met

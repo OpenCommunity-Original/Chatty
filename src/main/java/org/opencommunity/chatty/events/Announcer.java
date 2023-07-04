@@ -1,7 +1,6 @@
 package org.opencommunity.chatty.events;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.event.Listener;
 import org.opencommunity.chatty.Main;
 import org.opencommunity.chatty.utils.ConfigurationManager;
@@ -24,7 +23,7 @@ public class Announcer implements Listener {
     }
 
     public void startAnnouncementTask() {
-        if (announcementMessages.size() <= 0) {
+        if (announcementMessages.size() == 0) {
             return;
         }
         Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {

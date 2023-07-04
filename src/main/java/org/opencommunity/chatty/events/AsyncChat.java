@@ -1,8 +1,6 @@
 package org.opencommunity.chatty.events;
 
-import io.papermc.paper.chat.ChatRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -11,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.jetbrains.annotations.NotNull;
 import org.opencommunity.chatty.functions.*;
 
 public class AsyncChat implements Listener {
@@ -36,7 +33,7 @@ public class AsyncChat implements Listener {
 
         // Handle local chat
         String message = LegacyComponentSerializer.legacyAmpersand().serialize(event.message());
-        localChat.handleLocalChat(event, player, message);
+        localChat.handleLocalChat(event, message);
 
         if (event.isCancelled()) {
             return;
@@ -63,14 +60,17 @@ public class AsyncChat implements Listener {
         // Chat Correction
         String message = LegacyComponentSerializer.legacyAmpersand().serialize(event.message());
 
+        // Anti-Flood
         antiFlood.handleChat(message, event);
 
         if (event.isCancelled()) {
             return Component.empty();
         }
 
+        // Anti-Bad-Words
         message = antiBadWords.handleChat(message, event);
 
+        // Chat correction
         Component correctedMessage;
         correctedMessage = chatCorrection.handleChat(message, player);
 
