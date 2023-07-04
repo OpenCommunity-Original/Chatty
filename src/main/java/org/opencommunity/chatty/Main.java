@@ -20,7 +20,6 @@ public class Main extends JavaPlugin {
 
     // Plugin components
     private AsyncChat asyncChat;
-    private ChatCommands chatCommands;
     private ConfigurationManager configManager;
 
     @Override
@@ -55,7 +54,7 @@ public class Main extends JavaPlugin {
         AntiBadWords antiBadWords = new AntiBadWords(configManager, this);
         AntiFlood antiFlood = new AntiFlood(configManager);
         asyncChat = new AsyncChat(chatCorrection, chatFormatter, localChat, antiBadWords, antiFlood);
-        chatCommands = new ChatCommands(configManager, localChat);
+        ChatCommands chatCommands = new ChatCommands(configManager, localChat);
 
         // Register the chat command with Bukkit
         Objects.requireNonNull(getCommand("chat")).setExecutor(chatCommands);
